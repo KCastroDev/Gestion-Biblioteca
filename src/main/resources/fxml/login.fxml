@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox alignment="CENTER" spacing="20" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.upn.gestion.controller.LoginController"
+      stylesheets="@../css/styles.css"
+      styleClass="root"
+      prefWidth="450" prefHeight="400">
+
+    <padding>
+        <Insets top="40" right="50" bottom="40" left="50"/>
+    </padding>
+
+    <Label text="Biblioteca UPN" styleClass="titulo-login"/>
+    <Label text="Inicie sesión para continuar" style="-fx-text-fill: #7f8c8d; -fx-font-size: 14px;"/>
+
+    <Region prefHeight="20" />
+
+    <VBox spacing="8" alignment="CENTER_LEFT" maxWidth="Infinity">
+        <Label text="Correo Electrónico" styleClass="label-campo"/>
+        <TextField fx:id="txtEmail" promptText="ej: admin@biblioteca.com" maxWidth="Infinity"/>
+    </VBox>
+
+    <VBox spacing="8" alignment="CENTER_LEFT" maxWidth="Infinity">
+        <Label text="Contraseña" styleClass="label-campo"/>
+        <PasswordField fx:id="txtPassword" promptText="Ingrese su clave" maxWidth="Infinity"/>
+    </VBox>
+
+    <Label fx:id="lblMensaje" textFill="#e74c3c" style="-fx-font-weight: bold;"/>
+
+    <Region prefHeight="10" />
+
+    <Button text="INGRESAR" onAction="#ingresar"
+            styleClass="boton-ingresar"
+            maxWidth="Infinity"/>
+</VBox>
