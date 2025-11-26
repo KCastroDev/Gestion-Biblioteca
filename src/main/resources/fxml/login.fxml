@@ -1,39 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="20" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.upn.gestion.controller.LoginController"
-      stylesheets="@../css/styles.css"
-      styleClass="root"
-      prefWidth="450" prefHeight="400">
+<VBox alignment="CENTER" prefHeight="400" prefWidth="450" spacing="20" styleClass="root" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.upn.gestion.controller.LoginController">
 
     <padding>
-        <Insets top="40" right="50" bottom="40" left="50"/>
+        <Insets bottom="40" left="50" right="50" top="40" />
     </padding>
 
-    <Label text="Biblioteca UPN" styleClass="titulo-login"/>
-    <Label text="Inicie sesión para continuar" style="-fx-text-fill: #7f8c8d; -fx-font-size: 14px;"/>
+    <Label styleClass="titulo-login" text="Biblioteca UPN" />
+    <Label style="-fx-text-fill: #7f8c8d; -fx-font-size: 14px;" text="Inicie sesión para continuar" />
 
     <Region prefHeight="20" />
 
-    <VBox spacing="8" alignment="CENTER_LEFT" maxWidth="Infinity">
-        <Label text="Correo Electrónico" styleClass="label-campo"/>
-        <TextField fx:id="txtEmail" promptText="ej: admin@biblioteca.com" maxWidth="Infinity"/>
+    <VBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="8">
+        <Label styleClass="label-campo" text="Correo Electrónico" />
+        <TextField fx:id="txtEmail" maxWidth="Infinity" promptText="ej: admin@biblioteca.com" />
     </VBox>
 
-    <VBox spacing="8" alignment="CENTER_LEFT" maxWidth="Infinity">
-        <Label text="Contraseña" styleClass="label-campo"/>
-        <PasswordField fx:id="txtPassword" promptText="Ingrese su clave" maxWidth="Infinity"/>
+    <VBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="8">
+        <Label styleClass="label-campo" text="Contraseña" />
+        <PasswordField fx:id="txtPassword" maxWidth="Infinity" promptText="Ingrese su clave" />
     </VBox>
 
-    <Label fx:id="lblMensaje" textFill="#e74c3c" style="-fx-font-weight: bold;"/>
+    <Label fx:id="lblMensaje" style="-fx-font-weight: bold;" textFill="#e74c3c" />
+   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+      <children>
+      
+          <Button maxWidth="Infinity" onAction="#ingresar" prefHeight="43.0" prefWidth="135.0" styleClass="boton-ingresar" text="INGRESAR" />
+         <Button layoutX="10.0" layoutY="10.0" maxWidth="Infinity" onAction="#registrar" prefHeight="43.0" prefWidth="136.0" styleClass="boton-ingresar" text="REGISTRAR">
+            <HBox.margin>
+               <Insets />
+            </HBox.margin>
+         </Button>
+      </children>
+      <VBox.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      </VBox.margin>
+      <padding>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      </padding>
+   </HBox>
 
     <Region prefHeight="10" />
-
-    <Button text="INGRESAR" onAction="#ingresar"
-            styleClass="boton-ingresar"
-            maxWidth="Infinity"/>
 </VBox>

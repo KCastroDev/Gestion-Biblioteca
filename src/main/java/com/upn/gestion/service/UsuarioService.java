@@ -26,4 +26,19 @@ public class UsuarioService {
         }
         return null; // Login fallido
     }
+
+    // Método para guardar/registrar un usuario
+    public UsuarioSistema save(UsuarioSistema usuario) {
+        return usuarioRepository.save(usuario);
+    }
+
+    // Método adicional: Verificar si el email ya existe (útil para validación)
+    public boolean existsByEmail(String email) {
+        return usuarioRepository.findByEmail(email).isPresent();
+    }
+
+    // Método adicional: Verificar si el DNI ya existe (útil para validación)
+    public boolean existsByDni(String dni) {
+        return usuarioRepository.existsByDni(dni);
+    }
 }
