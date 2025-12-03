@@ -11,4 +11,6 @@ public interface UsuarioRepository extends JpaRepository<UsuarioSistema, Long> {
     // Método  para el Login: buscar por DNI o Email
     Optional<UsuarioSistema> findByEmail(String email);
     Optional<UsuarioSistema> findByDni(String dni);
+    boolean existsByDni(String dni);
+    boolean existsByEmail(String email);
 }
