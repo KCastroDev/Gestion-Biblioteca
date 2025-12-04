@@ -15,7 +15,7 @@
                    style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 0 0 10 0;"/>
             <Separator/>
 
-            <Button text="📚 Catálogo de Libros" maxWidth="Infinity"
+            <Button text="Catálogo de Libros" maxWidth="Infinity"
                     onAction="#mostrarVistaLibros"
                     style="-fx-alignment: CENTER_LEFT; -fx-cursor: hand;"/>
 
@@ -38,7 +38,7 @@
                 <HBox alignment="CENTER_LEFT" spacing="10">
                     <Label text="Catálogo de Libros" styleClass="titulo-login" style="-fx-font-size: 24px;"/>
                     <Region HBox.hgrow="ALWAYS"/>
-                    <Button text="🔄 Refrescar" onAction="#cargarLibros" styleClass="boton-ingresar"/>
+                    <Button text=" Refrescar" onAction="#cargarLibros" styleClass="boton-ingresar"/>
                 </HBox>
 
                 <TableView fx:id="tablaLibros" VBox.vgrow="ALWAYS" style="-fx-base: #ffffff; -fx-font-size: 14px;">
@@ -74,7 +74,7 @@
                 </GridPane>
 
                 <HBox spacing="15" alignment="CENTER_LEFT">
-                    <Button text="✅ Confirmar Préstamo"
+                    <Button text="Confirmar Préstamo"
                             onAction="#registrarPrestamoAction"
                             styleClass="boton-ingresar"
                             prefWidth="200"/>
