@@ -9,7 +9,7 @@ public class Autor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idAutor; // Agregamos ID para la base de datos
+    private Long idAutor;
 
     private String nombre;
     private String nacionalidad;

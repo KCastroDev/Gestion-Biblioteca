@@ -24,18 +24,15 @@ public class Prestamo {
     private Double totalMulta;
 
     // RELACIÓN 1: Asociación con Usuario
-    // Spring es inteligente: Al usar UsuarioSistema, ¡acepta Estudiantes o Docentes por igual!
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private UsuarioSistema usuario;
 
-    // RELACIÓN 2: COMPOSICIÓN (Rombo Negro)
-    // cascade = CascadeType.ALL -> Si borras Prestamo, borra Detalles.
-    // orphanRemoval = true -> Si quitas un detalle de la lista, lo borra de la BD.
-    @OneToMany(mappedBy = "prestamo", cascade = CascadeType.ALL, orphanRemoval = true)
+    // RELACIÓN 2: COMPOSICIÓN
+    // cascade es igual CascadeType. Si borras Prestamo, borra Detalles.
+    // orphanRemoval = true - Si de quita un detalle de la lista, lo borra de la BD.
+    @OneToMany(mappedBy = "prestamo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<DetallePrestamo> detalles;
-
-    // --- MÉTODOS DE LÓGICA DE NEGOCIO (Tus requerimientos) ---
 
     // Calcular días de retraso
     public long calcularDiasRetraso() {
@@ -48,7 +45,7 @@ public class Prestamo {
         return 0;
     }
 
-    // Calcular Multa (Ejemplo: 5 soles por día)
+    // Calcular Multa
     public double calcularMulta() {
         long dias = calcularDiasRetraso();
         return dias * 5.0;

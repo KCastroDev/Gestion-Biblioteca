@@ -5,8 +5,6 @@ import lombok.Data;
 
 @Data
 @Entity
-// ESTRATEGIA JOINED: Crea una tabla 'usuario_sistema' general y tablas separadas
-// para 'estudiante', 'docente', etc., unidas por el ID. ¡Es la más profesional!
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class UsuarioSistema {
 

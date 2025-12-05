@@ -25,7 +25,7 @@ public class LoginController {
     @FXML private Label lblMensaje;
 
     @Autowired private UsuarioService usuarioService;
-    @Autowired private ApplicationContext applicationContext; // Necesario para abrir la otra ventana
+    @Autowired private ApplicationContext applicationContext; // usamos esto para abrir la otra ventana
 
     @FXML
     public void ingresar() {

@@ -7,27 +7,36 @@ import com.upn.gestion.service.AutorService;
 import com.upn.gestion.service.CategoriaService;
 import com.upn.gestion.service.LibroService;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 public class VistaLibrosController {
 
-    // Vista catálogo
     @FXML private HBox panelHeader;
     @FXML private TableView<Libro> tablaLibros;
     @FXML private TableColumn<Libro, Long> colId;
     @FXML private TableColumn<Libro, String> colTitulo;
     @FXML private TableColumn<Libro, String> colIsbn;
     @FXML private TableColumn<Libro, Integer> colStock;
+    @FXML private TextField txtBuscar;
 
-    // Vista Registro
+    // FORMULARIO
     @FXML private VBox panelRegistro;
+    @FXML private Label lblTituloFormulario;
+    @FXML private Button btnGuardar;
+
     @FXML private TextField txtTitulo;
     @FXML private TextField txtIsbn;
     @FXML private TextField txtStock;
@@ -35,12 +44,12 @@ public class VistaLibrosController {
     @FXML private ComboBox<Categoria> cmbCategoria;
     @FXML private Label lblMensajeRegistro;
 
-    @Autowired
-    private LibroService libroService;
-    @Autowired
-    private AutorService autorService;
-    @Autowired
-    private CategoriaService categoriaService;
+    @Autowired private LibroService libroService;
+    @Autowired private AutorService autorService;
+    @Autowired private CategoriaService categoriaService;
+
+    private ObservableList<Libro> listaLibrosMaster = FXCollections.observableArrayList();
+    private Libro libroEnEdicion = null;
 
     @FXML
     public void initialize() {
@@ -59,196 +68,194 @@ public class VistaLibrosController {
 
     @FXML
     public void cargarLibros() {
-        tablaLibros.setItems(
-                FXCollections.observableArrayList(libroService.listarTodos())
-        );
+        listaLibrosMaster.setAll(libroService.listarTodos());
+        FilteredList<Libro> datosFiltrados = new FilteredList<>(listaLibrosMaster, p -> true);
+
+        txtBuscar.textProperty().addListener((observable, oldValue, newValue) -> {
+            datosFiltrados.setPredicate(libro -> {
+                if (newValue == null || newValue.isEmpty()) return true;
+                String lowerCaseFilter = newValue.toLowerCase();
+                return libro.getTitulo().toLowerCase().contains(lowerCaseFilter) ||
+                        libro.getIsbn().toLowerCase().contains(lowerCaseFilter) ||
+                        (libro.getAutor() != null && libro.getAutor().getNombre().toLowerCase().contains(lowerCaseFilter));
+            });
+        });
+
+        SortedList<Libro> datosOrdenados = new SortedList<>(datosFiltrados);
+        datosOrdenados.comparatorProperty().bind(tablaLibros.comparatorProperty());
+        tablaLibros.setItems(datosOrdenados);
     }
+
+    // --- AGREGAR NUEVO LIBRO ---
+    @FXML
+    public void mostrarVistaRegistroLibro() {
+        libroEnEdicion = null;
+        limpiarFormulario();
+
+
+        lblTituloFormulario.setText("Registrar Nuevo Libro");
+        btnGuardar.setText(" Guardar Libro");
+        btnGuardar.setStyle("-fx-background-color: #3498db;"); // Azul
+
+        cambiarVista(true);
+    }
+
+    // --- EDITAR LIBRO ---
+    @FXML
+    public void editarLibroAction() {
+        Libro seleccionado = tablaLibros.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) {
+            mostrarAlerta(Alert.AlertType.WARNING, "Seleccione un libro para editar.");
+            return;
+        }
+
+        libroEnEdicion = seleccionado;
+
+        //  campos
+        txtTitulo.setText(seleccionado.getTitulo());
+        txtIsbn.setText(seleccionado.getIsbn());
+        txtStock.setText(String.valueOf(seleccionado.getStock()));
+        cmbAutor.getSelectionModel().select(seleccionado.getAutor());
+        cmbCategoria.getSelectionModel().select(seleccionado.getCategoria());
+
+        // CAMBIO  DE TEXTOS
+        lblTituloFormulario.setText("Editar Libro #" + seleccionado.getIdLibro());
+        btnGuardar.setText(" Actualizar Datos");
+        btnGuardar.setStyle("-fx-background-color: #f39c12;"); // color del botón naranja
+        lblMensajeRegistro.setText("");
+
+        cambiarVista(true);
+    }
+
+    @FXML
+    public void guardarLibro() {
+        try {
+            if (txtTitulo.getText().isEmpty() || txtStock.getText().isEmpty()) {
+                lblMensajeRegistro.setText("Complete los campos obligatorios.");
+                lblMensajeRegistro.setStyle("-fx-text-fill: red;");
+                return;
+            }
+
+            int stock = Integer.parseInt(txtStock.getText());
+
+            Libro libro;
+            boolean esEdicion = (libroEnEdicion != null);
+
+            if (esEdicion) {
+                libro = libroEnEdicion;
+            } else {
+                libro = new Libro();
+            }
+
+            libro.setTitulo(txtTitulo.getText());
+            libro.setIsbn(txtIsbn.getText());
+            libro.setStock(stock);
+            libro.setDisponible(stock > 0);
+            libro.setAutor(cmbAutor.getValue());
+            libro.setCategoria(cmbCategoria.getValue());
+
+            libroService.registrarLibro(libro);
+
+            // Mensaje de éxito
+            String mensajeExito = esEdicion ? "Libro editado correctamente." : "Libro registrado correctamente.";
+            mostrarAlerta(Alert.AlertType.INFORMATION, mensajeExito);
+
+            volverACatalogo();
+
+        } catch (NumberFormatException e) {
+            lblMensajeRegistro.setText("El stock debe ser un número.");
+            lblMensajeRegistro.setStyle("-fx-text-fill: red;");
+        } catch (Exception e) {
+            lblMensajeRegistro.setText("Error: " + e.getMessage());
+            lblMensajeRegistro.setStyle("-fx-text-fill: red;");
+        }
+    }
+    // --- ELIMINAR LIBRO ---
+    @FXML public void eliminarLibro() {
+        Libro seleccionado = tablaLibros.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) {
+            mostrarAlerta(Alert.AlertType.WARNING, "Seleccione un libro."); return;
+        }
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("¿Eliminar '" + seleccionado.getTitulo() + "'?");
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            try {
+                libroService.eliminarLibro(seleccionado.getIdLibro());
+                cargarLibros();
+            } catch (Exception e) { mostrarAlerta(Alert.AlertType.ERROR, "No se puede eliminar."); }
+        }
+    }
+
+    private void cambiarVista(boolean mostrarFormulario) {
+        panelHeader.setVisible(!mostrarFormulario); panelHeader.setManaged(!mostrarFormulario);
+        tablaLibros.setVisible(!mostrarFormulario); tablaLibros.setManaged(!mostrarFormulario);
+        panelRegistro.setVisible(mostrarFormulario); panelRegistro.setManaged(mostrarFormulario);
+    }
+
+    @FXML public void volverACatalogo() {
+        libroEnEdicion = null;
+        cambiarVista(false);
+        cargarLibros();
+    }
+
+    private void mostrarCatalogo() { cambiarVista(false); }
 
     private void cargarAutoresYCategorias() {
         cmbAutor.setItems(FXCollections.observableArrayList(autorService.listarTodos()));
-        cmbCategoria.setItems(FXCollections.observableArrayList(categoriaService.listarTodas()));
+        cmbCategoria.setItems(FXCollections.observableArrayList(categoriaService.listarTodos()));
 
-        // cómo se muestran en el combo (toString de Lombok usa todos los campos, mejor solo el nombre)
-        cmbAutor.setCellFactory(listView -> new ListCell<Autor>() {
-            @Override
-            protected void updateItem(Autor item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? "" : item.getNombre());
-            }
-        });
-        cmbAutor.setButtonCell(new ListCell<Autor>() {
-            @Override
-            protected void updateItem(Autor item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? "" : item.getNombre());
-            }
-        });
+        StringConverter<Autor> ac = new StringConverter<>() {
+            @Override public String toString(Autor o) { return o!=null?o.getNombre():""; }
+            @Override public Autor fromString(String s) { return null; }
+        };
+        cmbAutor.setConverter(ac);
 
-        cmbCategoria.setCellFactory(listView -> new ListCell<Categoria>() {
-            @Override
-            protected void updateItem(Categoria item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? "" : item.getNombre());
-            }
-        });
-        cmbCategoria.setButtonCell(new ListCell<Categoria>() {
-            @Override
-            protected void updateItem(Categoria item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? "" : item.getNombre());
-            }
-        });
+        StringConverter<Categoria> cc = new StringConverter<>() {
+            @Override public String toString(Categoria o) { return o!=null?o.getNombre():""; }
+            @Override public Categoria fromString(String s) { return null; }
+        };
+        cmbCategoria.setConverter(cc);
     }
 
-    // -------- Cambio de "vista" dentro del mismo FXML --------
-
-    @FXML
-    public void mostrarVistaRegistroLibro() {
-        // Ocultar catálogo
-        panelHeader.setVisible(false);
-        panelHeader.setManaged(false);
-        tablaLibros.setVisible(false);
-        tablaLibros.setManaged(false);
-
-        // Mostrar formulario
-        panelRegistro.setVisible(true);
-        panelRegistro.setManaged(true);
-
-        // Limpiar campos y mensaje
-        txtTitulo.clear();
-        txtIsbn.clear();
-        txtStock.clear();
+    private void limpiarFormulario() {
+        txtTitulo.clear(); txtIsbn.clear(); txtStock.clear();
         cmbAutor.getSelectionModel().clearSelection();
         cmbCategoria.getSelectionModel().clearSelection();
         lblMensajeRegistro.setText("");
     }
 
-    @FXML
-    public void volverACatalogo() {
-        mostrarCatalogo();
-        cargarLibros();
+    private void mostrarAlerta(Alert.AlertType type, String msg) {
+        Alert alert = new Alert(type);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 
-    private void mostrarCatalogo() {
-        panelHeader.setVisible(true);
-        panelHeader.setManaged(true);
-        tablaLibros.setVisible(true);
-        tablaLibros.setManaged(true);
-
-        panelRegistro.setVisible(false);
-        panelRegistro.setManaged(false);
-    }
-
-    // -- Lógica de guardado --
-
-    @FXML
-    public void guardarLibro() {
-        String titulo = txtTitulo.getText();
-        String isbn = txtIsbn.getText();
-        String stockStr = txtStock.getText();
-        Autor autorSeleccionado = cmbAutor.getValue();
-        Categoria categoriaSeleccionada = cmbCategoria.getValue();
-
-        if (titulo.isEmpty() || isbn.isEmpty() || stockStr.isEmpty()) {
-            lblMensajeRegistro.setText("Complete título, ISBN y stock.");
-            lblMensajeRegistro.setStyle("-fx-text-fill: red;");
-            return;
-        }
-
-        int stock;
-        try {
-            stock = Integer.parseInt(stockStr);
-        } catch (NumberFormatException e) {
-            lblMensajeRegistro.setText("El stock debe ser un número.");
-            lblMensajeRegistro.setStyle("-fx-text-fill: red;");
-            return;
-        }
-
-        try {
-            Libro libro = new Libro();
-            libro.setTitulo(titulo);
-            libro.setIsbn(isbn);
-            libro.setStock(stock);
-            libro.setDisponible(stock > 0);
-
-            if (autorSeleccionado != null) {
-                libro.setAutor(autorSeleccionado);
-            }
-            if (categoriaSeleccionada != null) {
-                libro.setCategoria(categoriaSeleccionada);
-            }
-
-            libroService.registrarLibro(libro);
-
-            lblMensajeRegistro.setText("Libro registrado correctamente.");
-            lblMensajeRegistro.setStyle("-fx-text-fill: green;");
-
-            txtTitulo.clear();
-            txtIsbn.clear();
-            txtStock.clear();
-            cmbAutor.getSelectionModel().clearSelection();
-            cmbCategoria.getSelectionModel().clearSelection();
-
-        } catch (IllegalArgumentException ex) {
-            lblMensajeRegistro.setText(ex.getMessage());
-            lblMensajeRegistro.setStyle("-fx-text-fill: red;");
-        }
-    }
-
-    // -- Botones "+" para crear rápido --
-
-    @FXML
-    public void nuevoAutorRapido() {
+    @FXML public void nuevoAutorRapido() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Nuevo Autor");
-        dialog.setHeaderText("Registrar nuevo autor");
-        dialog.setContentText("Nombre del autor:");
-
+        dialog.setHeaderText("Crear Autor");
+        dialog.setContentText("Nombre:");
         dialog.showAndWait().ifPresent(nombre -> {
-            if (nombre == null || nombre.isBlank()) {
-                lblMensajeRegistro.setText("El nombre del autor no puede estar vacío.");
-                lblMensajeRegistro.setStyle("-fx-text-fill: red;");
-                return;
-            }
-            try {
-                Autor autor = new Autor();
-                autor.setNombre(nombre.trim());
-                Autor guardado = autorService.registrarAutor(autor);
-                cargarAutoresYCategorias(); // recargar listas
+            if (!nombre.isBlank()) {
+                Autor a = new Autor(); a.setNombre(nombre);
+                Autor guardado = autorService.registrarAutor(a);
+                cargarAutoresYCategorias();
                 cmbAutor.getSelectionModel().select(guardado);
-                lblMensajeRegistro.setText("Autor registrado.");
-                lblMensajeRegistro.setStyle("-fx-text-fill: green;");
-            } catch (IllegalArgumentException ex) {
-                lblMensajeRegistro.setText(ex.getMessage());
-                lblMensajeRegistro.setStyle("-fx-text-fill: red;");
             }
         });
     }
 
-    @FXML
-    public void nuevaCategoriaRapida() {
+    @FXML public void nuevaCategoriaRapida() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Nueva Categoría");
-        dialog.setHeaderText("Registrar nueva categoría");
-        dialog.setContentText("Nombre de la categoría:");
-
+        dialog.setHeaderText("Crear Categoría");
+        dialog.setContentText("Nombre:");
         dialog.showAndWait().ifPresent(nombre -> {
-            if (nombre == null || nombre.isBlank()) {
-                lblMensajeRegistro.setText("El nombre de la categoría no puede estar vacío.");
-                lblMensajeRegistro.setStyle("-fx-text-fill: red;");
-                return;
-            }
-            try {
-                Categoria categoria = new Categoria();
-                categoria.setNombre(nombre.trim());
-                Categoria guardada = categoriaService.registrarCategoria(categoria);
-                cargarAutoresYCategorias(); // recargar listas
+            if (!nombre.isBlank()) {
+                Categoria c = new Categoria(); c.setNombre(nombre);
+                Categoria guardada = categoriaService.registrarCategoria(c);
+                cargarAutoresYCategorias();
                 cmbCategoria.getSelectionModel().select(guardada);
-                lblMensajeRegistro.setText("Categoría registrada.");
-                lblMensajeRegistro.setStyle("-fx-text-fill: green;");
-            } catch (IllegalArgumentException ex) {
-                lblMensajeRegistro.setText(ex.getMessage());
-                lblMensajeRegistro.setStyle("-fx-text-fill: red;");
             }
         });
     }

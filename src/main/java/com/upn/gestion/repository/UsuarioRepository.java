@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<UsuarioSistema, Long> {
-    // Método  para el Login: buscar por DNI o Email
+    // Método  para buscar usuario por email
     Optional<UsuarioSistema> findByEmail(String email);
     Optional<UsuarioSistema> findByDni(String dni);
     boolean existsByDni(String dni);

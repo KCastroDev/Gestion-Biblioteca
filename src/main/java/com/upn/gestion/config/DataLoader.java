@@ -1,4 +1,4 @@
-package com.upn.gestion.config; // O tu paquete correspondiente
+package com.upn.gestion.config;
 
 import com.upn.gestion.model.*;
 import com.upn.gestion.repository.*;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
-@Component // Le dice a Spring: "Carga esto al iniciar"
+@Component
 public class DataLoader implements CommandLineRunner {
 
     @Autowired private UsuarioRepository usuarioRepository;
@@ -18,14 +18,14 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Verificar si ya existen datos para no duplicar
+        // Verificamos si ya existen datos para no duplicar
         if (categoriaRepository.count() == 0) {
             cargarDatosDePrueba();
         }
     }
 
     private void cargarDatosDePrueba() {
-        // 1. Crear Categorías
+        // Crear Categorías
         Categoria catIngenieria = new Categoria();
         catIngenieria.setNombre("Ingeniería de Sistemas");
         categoriaRepository.save(catIngenieria);
@@ -34,7 +34,7 @@ public class DataLoader implements CommandLineRunner {
         catLiteratura.setNombre("Literatura Clásica");
         categoriaRepository.save(catLiteratura);
 
-        // 2. Crear Autores
+        // Crear Autores
         Autor autorRobert = new Autor();
         autorRobert.setNombre("Robert C. Martin");
         autorRobert.setNacionalidad("USA");
@@ -45,7 +45,7 @@ public class DataLoader implements CommandLineRunner {
         autorGabo.setNacionalidad("Colombia");
         autorRepository.save(autorGabo);
 
-        // 3. Crear Libros
+        // Crear Libros
         Libro libro1 = new Libro();
         libro1.setTitulo("Clean Code");
         libro1.setIsbn("978-0132350884");
@@ -64,13 +64,13 @@ public class DataLoader implements CommandLineRunner {
         libro2.setAutor(autorGabo);
         libroRepository.save(libro2);
 
-        // 4. Crear Usuarios
+        // Crear Usuarios
         Administrador admin = new Administrador();
         admin.setNombre("Carlos");
         admin.setApellidos("Admin");
         admin.setDni("12345678");
         admin.setEmail("admin@biblioteca.com");
-        admin.setPassword("admin123"); // En realidad esto se encripta, pero para pruebas o
+        admin.setPassword("admin123"); // En un entorno real, las contraseñas deben estar encriptadas
         admin.setCodigoTrabajador("ADM001");
         admin.setTurno("Mañana");
         usuarioRepository.save(admin);

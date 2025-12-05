@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="702.0" prefWidth="501.0" spacing="20" styleClass="root" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.upn.gestion.controller.RegisterController">
+<VBox alignment="CENTER" prefHeight="750.0" prefWidth="501.0" spacing="20" styleClass="root" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.upn.gestion.controller.RegisterController">
 
     <padding>
         <Insets bottom="40" left="50" right="50" top="40" />
@@ -18,39 +18,58 @@
     <Label styleClass="titulo-login" text="Biblioteca UPN" />
     <Label style="-fx-text-fill: #7f8c8d; -fx-font-size: 14px;" text="Formulario de Registro" />
 
-    <Region prefHeight="20" />
-   <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-      <children>
-         <VBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="8">
-            <children>
-               <Label styleClass="label-campo" text="Nombre" />
-               <TextField fx:id="txtRegNombre" maxWidth="Infinity" prefHeight="40.0" prefWidth="195.0" promptText="John" />
-            </children>
-         </VBox>
-         <VBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" maxWidth="Infinity" spacing="8">
-            <children>
-               <Label styleClass="label-campo" text="Apellido" />
-               <TextField fx:id="txtRegApellido" maxWidth="Infinity" prefHeight="40.0" prefWidth="195.0" promptText="Doe" />
-            </children>
-         </VBox>
-      </children>
-   </HBox>
-   <HBox alignment="TOP_CENTER" layoutX="60.0" layoutY="162.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-      <children>
-         <VBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="8">
-            <children>
-               <Label styleClass="label-campo" text="DNI" />
-               <TextField fx:id="txtRegDNI" maxWidth="Infinity" prefHeight="40.0" prefWidth="195.0" promptText="5555555" />
-            </children>
-         </VBox>
-         <VBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" maxWidth="Infinity" spacing="8">
-            <children>
-               <Label styleClass="label-campo" text="Teléfono" />
-               <TextField fx:id="txtRegTelf" maxWidth="Infinity" prefHeight="40.0" prefWidth="195.0" promptText="934934934" />
-            </children>
-         </VBox>
-      </children>
-   </HBox>
+    <Region prefHeight="10" />
+
+    <HBox alignment="TOP_CENTER" prefHeight="80.0" prefWidth="200.0" spacing="10.0">
+        <children>
+            <VBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="8">
+                <children>
+                    <Label styleClass="label-campo" text="Nombre" />
+                    <TextField fx:id="txtRegNombre" maxWidth="Infinity" prefHeight="40.0" prefWidth="195.0" promptText="John" />
+                </children>
+            </VBox>
+            <VBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" maxWidth="Infinity" spacing="8">
+                <children>
+                    <Label styleClass="label-campo" text="Apellido" />
+                    <TextField fx:id="txtRegApellido" maxWidth="Infinity" prefHeight="40.0" prefWidth="195.0" promptText="Doe" />
+                </children>
+            </VBox>
+        </children>
+    </HBox>
+
+    <HBox alignment="TOP_CENTER" layoutX="60.0" layoutY="162.0" prefHeight="80.0" prefWidth="200.0" spacing="10.0">
+        <children>
+            <VBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="8">
+                <children>
+                    <Label styleClass="label-campo" text="DNI" />
+                    <TextField fx:id="txtRegDNI" maxWidth="Infinity" prefHeight="40.0" prefWidth="195.0" promptText="5555555" />
+                </children>
+            </VBox>
+            <VBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" maxWidth="Infinity" spacing="8">
+                <children>
+                    <Label styleClass="label-campo" text="Teléfono" />
+                    <TextField fx:id="txtRegTelf" maxWidth="Infinity" prefHeight="40.0" prefWidth="195.0" promptText="934934934" />
+                </children>
+            </VBox>
+        </children>
+    </HBox>
+
+    <HBox alignment="TOP_CENTER" layoutX="60.0" layoutY="162.0" prefHeight="80.0" prefWidth="200.0" spacing="10.0">
+        <children>
+            <VBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="8">
+                <children>
+                    <Label styleClass="label-campo" text="Código Estudiante" />
+                    <TextField fx:id="txtRegCodigo" maxWidth="Infinity" prefHeight="40.0" prefWidth="195.0" promptText="Ej: N00123" />
+                </children>
+            </VBox>
+            <VBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" maxWidth="Infinity" spacing="8">
+                <children>
+                    <Label styleClass="label-campo" text="Carrera" />
+                    <TextField fx:id="txtRegCarrera" maxWidth="Infinity" prefHeight="40.0" prefWidth="195.0" promptText="Ej: Sistemas" />
+                </children>
+            </VBox>
+        </children>
+    </HBox>
 
     <VBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="8">
         <Label styleClass="label-campo" text="Correo Electrónico" />
@@ -60,26 +79,27 @@
     <VBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="8">
         <Label styleClass="label-campo" text="Contraseña" />
         <PasswordField fx:id="txtRegPassword" maxWidth="Infinity" promptText="Ingrese su clave" />
-      <PasswordField fx:id="txtRegPasswordRepeat" layoutX="10.0" layoutY="36.0" maxWidth="Infinity" promptText="Repita la clave" />
+        <PasswordField fx:id="txtRegPasswordRepeat" layoutX="10.0" layoutY="36.0" maxWidth="Infinity" promptText="Repita la clave" />
     </VBox>
 
     <Label fx:id="lblMensaje" style="-fx-font-weight: bold;" textFill="#e74c3c" />
-   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
-      <children>
-         <Button layoutX="10.0" layoutY="10.0" maxWidth="Infinity" onAction="#registrar" prefHeight="43.0" prefWidth="180.0" styleClass="boton-ingresar" text="REGISTRARSE">
-            <HBox.margin>
-               <Insets />
-            </HBox.margin>
-         </Button>
-         <Button layoutX="114.0" layoutY="15.0" maxWidth="Infinity" onAction="#cancelar" prefHeight="43.0" prefWidth="180.0" styleClass="boton-ingresar" text="CANCELAR" />
-      </children>
-      <VBox.margin>
-         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-      </VBox.margin>
-      <padding>
-         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-      </padding>
-   </HBox>
+
+    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+        <children>
+            <Button layoutX="10.0" layoutY="10.0" maxWidth="Infinity" onAction="#registrar" prefHeight="43.0" prefWidth="180.0" styleClass="boton-ingresar" text="REGISTRARSE">
+                <HBox.margin>
+                    <Insets />
+                </HBox.margin>
+            </Button>
+            <Button layoutX="114.0" layoutY="15.0" maxWidth="Infinity" onAction="#cancelar" prefHeight="43.0" prefWidth="180.0" styleClass="boton-ingresar" text="CANCELAR" />
+        </children>
+        <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+        </VBox.margin>
+        <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+        </padding>
+    </HBox>
 
     <Region prefHeight="10" />
 </VBox>

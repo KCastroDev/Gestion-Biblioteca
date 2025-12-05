@@ -1,65 +1,162 @@
-/* styles.css */
+/*  TEMA UPN Negro, Amarillo/Dorado, Blanco  */
 
-/* Estilo general del fondo (un degradado suave) */
 .root {
-    -fx-background-color: linear-gradient(to bottom right, #ffffff, #e6f0ff);
-    -fx-font-family: 'Segoe UI', sans-serif; /* Usa una fuente limpia */
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-background-color: #f4f4f4; /* Fondo general gris muy claro */
 }
 
-/* El título principal */
+/* Títulos Negro UPN */
 .titulo-login {
-    -fx-font-size: 28px;
+    -fx-font-size: 24px;
     -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50; /* Color azul oscuro elegante */
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2); /* Sombra suave */
+    -fx-text-fill: #000000;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 1);
 }
 
-/* Etiquetas pequeñas (Correo, Contraseña) */
+/* Etiquetas */
 .label-campo {
     -fx-font-size: 14px;
-    -fx-text-fill: #555555;
+    -fx-text-fill: #333333;
     -fx-font-weight: bold;
 }
 
-/* Campos de texto (TextField y PasswordField) */
-.text-field, .password-field {
+/* Campos de Texto */
+.text-field, .password-field, .combo-box, .date-picker .text-field {
     -fx-background-color: white;
-    -fx-background-radius: 8px; /* Bordes redondeados */
-    -fx-border-radius: 8px;
+    -fx-background-radius: 5px;
     -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px;
+    -fx-font-size: 14px;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #FFB612; /* Borde Amarillo  al escribir */
+    -fx-background-color: #fffdf5;
+}
+
+/* BOTONES PRINCIPALES */
+
+/* Botón Primario */
+.boton-ingresar {
+    -fx-background-color: #FFB612; /* Amarillo */
+    -fx-text-fill: #000000; /* Texto  */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 3, 0, 0, 1);
+}
+
+.boton-ingresar:hover {
+    -fx-background-color: #e5a300; /* Un poco más oscuro al pasar el mouse */
+}
+
+/* Botón Secundario Negro con texto Blanco */
+.boton-secundario {
+    -fx-background-color: #000000;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.boton-secundario:hover {
+    -fx-background-color: #333333;
+}
+
+/* Botón Rojo - para Eliminar y Cerrar Sesión */
+.boton-peligro {
+    -fx-background-color: #D32F2F;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+/* TABLAS  */
+.table-view .column-header-background {
+    -fx-background-color: #000000; /*Cabecera*/
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white; /* Texto blanco cabecera */
+    -fx-font-weight: bold;
+}
+
+/* Fila seleccionada */
+.table-row-cell:filled:selected {
+    -fx-background-color: #FFB612;
+    -fx-text-background-color: black;
+}
+/*ESTILOS DEL FORMULARIO */
+
+/* contenedor del formulario */
+.formulario-card {
+    -fx-background-color: white;
+    -fx-background-radius: 15px; /* Bordes redondeados */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 20, 0, 0, 5); /* Sombra suave */
+    -fx-padding: 30px;
+    -fx-border-color: #eeeeee;
     -fx-border-width: 1px;
+    -fx-border-radius: 15px;
+}
+
+/* Título del formulario */
+.titulo-formulario {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #000000;
+    -fx-padding: 0 0 15 0;
+    -fx-border-color: transparent transparent #FFB612 transparent;
+    -fx-border-width: 3px;
+}
+
+/* Inputs */
+.text-field-modern {
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
     -fx-padding: 10px;
     -fx-font-size: 14px;
 }
 
-/* Efecto cuando haces clic en el campo de texto */
-.text-field:focused, .password-field:focused {
-    -fx-border-color: #007bff; /* Se pone azul al enfocar */
-    -fx-background-color: #f9fbfc;
+.text-field-modern:focused {
+    -fx-background-color: white;
+    -fx-border-color: #FFB612; /* Borde amarillo al escribir */
+    -fx-border-width: 2px;
 }
 
-/* El botón de ingresar */
-.boton-ingresar {
-    -fx-background-color: #007bff; /* Azul brillante */
-    -fx-text-fill: white;
-    -fx-font-size: 16px;
+/* Botón Guardar  */
+.btn-guardar {
+    -fx-background-color: #FFB612;
+    -fx-text-fill: #000000; /* Texto negro para contraste */
     -fx-font-weight: bold;
-    -fx-background-radius: 25px; /* Muy redondeado */
-    -fx-padding: 12px 20px;
-    -fx-cursor: hand; /* Manito al pasar el mouse */
-    -fx-effect: dropshadow(three-pass-box, rgba(0,123,255,0.3), 10, 0, 0, 4);
+    -fx-font-size: 14px;
+    -fx-background-radius: 30px; /* Redondo estilo 'Pill' */
+    -fx-cursor: hand;
+    -fx-padding: 10 30 10 30;
 }
+.btn-guardar:hover { -fx-background-color: #e5a300; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2); }
 
-/* ¡MAGIA! Efecto cuando pasas el mouse sobre el botón (Hover) */
-.boton-ingresar:hover {
-    -fx-background-color: #0056b3; /* Un azul más oscuro */
-    -fx-scale-x: 1.02; /* Crece un poquito */
-    -fx-scale-y: 1.02;
+/* Botón Volver */
+.btn-volver {
+    -fx-background-color: #333333;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-background-radius: 30px;
+    -fx-cursor: hand;
+    -fx-padding: 10 30 10 30;
 }
+.btn-volver:hover { -fx-background-color: #000000; }
 
-/* Efecto cuando presionas el botón */
-.boton-ingresar:pressed {
-    -fx-background-color: #004494;
-    -fx-scale-x: 0.98; /* Se encoge un poquito */
-    -fx-scale-y: 0.98;
+/* Botón Pequeño + */
+.btn-mini {
+    -fx-background-color: #000000;
+    -fx-text-fill: #FFB612;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
 }
