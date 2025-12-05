@@ -14,10 +14,10 @@ public class UsuarioService {
 
     // Método para validar login
     public UsuarioSistema login(String email, String password) {
-        // 1. Buscamos por email
+        // Buscamos por email al usuario
         Optional<UsuarioSistema> usuarioOpt = usuarioRepository.findByEmail(email);
 
-        // 2. Si existe, verificamos la contraseña
+        // Si existe, verificamos la contraseña
         if (usuarioOpt.isPresent()) {
             UsuarioSistema usuario = usuarioOpt.get();
             if (usuario.getPassword().equals(password)) {
@@ -26,19 +26,17 @@ public class UsuarioService {
         }
         return null; // Login fallido
     }
-
-    // Método para guardar/registrar un usuario
-    public UsuarioSistema save(UsuarioSistema usuario) {
+    // Método para registrar un nuevo usuario
+    public UsuarioSistema guardarUsuario(UsuarioSistema usuario) {
         return usuarioRepository.save(usuario);
     }
 
-    // Método adicional: Verificar si el email ya existe (útil para validación)
+    // Método Verificar si el email ya existe
     public boolean existsByEmail(String email) {
         return usuarioRepository.findByEmail(email).isPresent();
     }
-
-    // Método adicional: Verificar si el DNI ya existe (útil para validación)
+    // Método Verificar si el DNI ya existe
     public boolean existsByDni(String dni) {
-        return usuarioRepository.existsByDni(dni);
+        return usuarioRepository.findByDni(dni).isPresent();
     }
 }

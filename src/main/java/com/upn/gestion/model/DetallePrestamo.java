@@ -16,11 +16,9 @@ public class DetallePrestamo {
     @JoinColumn(name = "id_libro")
     private Libro libro;
 
-    // Relación Inversa con Prestamo (Necesaria para que Spring sepa quién es el padre)
+    // Relación Inversa con Prestamo (para que Spring sepa quién es el padre)
     @ManyToOne
     @JoinColumn(name = "id_prestamo")
     private Prestamo prestamo;
-
-    // Atributo extra del diagrama
-    private String estadoLibro; // Ej: "Buen estado", "Dañado"
+    private String estadoLibro;
 }

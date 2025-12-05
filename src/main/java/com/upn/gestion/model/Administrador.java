@@ -10,5 +10,5 @@ import lombok.EqualsAndHashCode;
 public class Administrador extends UsuarioSistema {
 
     private String codigoTrabajador;
-    private String turno; // Mañana, Tarde
+    private String turno;
 }

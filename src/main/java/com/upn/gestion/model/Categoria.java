@@ -9,7 +9,7 @@ public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCategoria; // Agregamos ID
+    private Long idCategoria;
 
-    private String nombre; // Ej: "Ingeniería", "Literatura", "Terror"
+    private String nombre;
 }

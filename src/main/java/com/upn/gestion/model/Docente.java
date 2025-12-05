@@ -11,5 +11,5 @@ public class Docente extends UsuarioSistema {
 
     private String codigoDocente;
     private String especialidad;
-    private String titulo; // Ej: Lic., Ing., Dr.
+    private String titulo;
 }

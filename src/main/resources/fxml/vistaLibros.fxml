@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
 <VBox spacing="15" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.upn.gestion.controller.VistaLibrosController">
 
     <HBox fx:id="panelHeader" alignment="CENTER_LEFT" spacing="10">
         <Label style="-fx-font-size: 24px;" styleClass="titulo-login" text="Catálogo de Libros" />
         <Region HBox.hgrow="ALWAYS" />
-        <Button onAction="#mostrarVistaRegistroLibro" styleClass="boton-ingresar" text="➕ Registrar" />
-        <Button layoutX="482.0" layoutY="15.0" onAction="#cargarLibros" styleClass="boton-ingresar" text="🔄 Refrescar" />
+
+        <TextField fx:id="txtBuscar" promptText="🔍 Buscar..." prefWidth="200" styleClass="text-field-modern"/>
+
+        <Button onAction="#mostrarVistaRegistroLibro" styleClass="boton-secundario" text="➕ Nuevo" />
+        <Button onAction="#editarLibroAction" styleClass="boton-ingresar" text="✏ Editar" />
+        <Button onAction="#eliminarLibro" styleClass="boton-peligro" text="🗑 Eliminar" />
+        <Button onAction="#cargarLibros" styleClass="boton-secundario" text="🔄" />
     </HBox>
 
     <TableView fx:id="tablaLibros" style="-fx-base: #ffffff; -fx-font-size: 14px;" VBox.vgrow="ALWAYS">
@@ -35,61 +30,55 @@
         </columnResizePolicy>
     </TableView>
 
-    <!-- FORMULARIO REGISTRO LIBRO (OCULTO AL INICIO) -->
-    <VBox fx:id="panelRegistro" managed="false" spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8;" visible="false">
-        <Label prefHeight="27.0" prefWidth="293.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Registrar nuevo libro" />
-        <Separator />
+    <VBox fx:id="panelRegistro" managed="false" visible="false" spacing="20"
+          styleClass="formulario-card" maxWidth="600" alignment="TOP_CENTER">
 
-        <GridPane hgap="10" vgap="10">
-            <columnConstraints>        
+        <Label fx:id="lblTituloFormulario" text="Registrar Nuevo Libro" styleClass="titulo-formulario" maxWidth="Infinity"/>
+
+        <GridPane hgap="15" vgap="15">
+            <columnConstraints>
                 <ColumnConstraints halignment="RIGHT" minWidth="100" />
-                <ColumnConstraints minWidth="250" />
+                <ColumnConstraints hgrow="ALWAYS" />
             </columnConstraints>
 
-            <!-- Título -->
-            <Label text="Título:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <TextField fx:id="txtTitulo" promptText="Ingrese título"
-                    GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label styleClass="label-campo" text="Título:" GridPane.rowIndex="0" />
+            <TextField fx:id="txtTitulo" promptText="Ingrese título" styleClass="text-field-modern" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-            <!-- ISBN -->
-            <Label text="ISBN:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <TextField fx:id="txtIsbn" promptText="Ingrese ISBN"
-                    GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label styleClass="label-campo" text="ISBN:" GridPane.rowIndex="1" />
+            <TextField fx:id="txtIsbn" promptText="Ingrese ISBN" styleClass="text-field-modern" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-            <!-- Stock -->
-            <Label text="Stock:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <TextField fx:id="txtStock" promptText="Ingrese stock"
-                    GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label styleClass="label-campo" text="Stock:" GridPane.rowIndex="2" />
+            <TextField fx:id="txtStock" promptText="Ingrese stock" styleClass="text-field-modern" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-            <!-- Autor -->
-            <Label text="Autor:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-            <HBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                <ComboBox fx:id="cmbAutor" prefWidth="200.0"/>
-                <Button text="+" onAction="#nuevoAutorRapido" prefWidth="30.0"/>
+            <Label styleClass="label-campo" text="Autor:" GridPane.rowIndex="3" />
+            <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="3" alignment="CENTER_LEFT">
+                <ComboBox fx:id="cmbAutor" promptText="Seleccione Autor" maxWidth="Infinity" HBox.hgrow="ALWAYS" styleClass="text-field-modern"/>
+                <Button text="➕" onAction="#nuevoAutorRapido" styleClass="btn-mini"/>
             </HBox>
 
-            <!-- Categoría -->
-            <Label text="Categoría:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-            <HBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                <ComboBox fx:id="cmbCategoria" prefWidth="200.0"/>
-                <Button text="+" onAction="#nuevaCategoriaRapida" prefWidth="30.0"/>
+            <Label styleClass="label-campo" text="Categoría:" GridPane.rowIndex="4" />
+            <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4" alignment="CENTER_LEFT">
+                <ComboBox fx:id="cmbCategoria" promptText="Seleccione Categoría" maxWidth="Infinity" HBox.hgrow="ALWAYS" styleClass="text-field-modern"/>
+                <Button text="➕" onAction="#nuevaCategoriaRapida" styleClass="btn-mini"/>
             </HBox>
 
             <rowConstraints>
-                <RowConstraints/>
-                <RowConstraints/>
-                <RowConstraints/>
-                <RowConstraints/>
-                <RowConstraints/>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
             </rowConstraints>
         </GridPane>
 
-        <HBox spacing="10">
-            <Button onAction="#guardarLibro" prefHeight="40.0" prefWidth="200.0" styleClass="boton-ingresar" text="💾 Guardar" />                
-            <Button onAction="#volverACatalogo" prefHeight="40.0" prefWidth="220.0" styleClass="boton-ingresar" text="⬅ Volver" wrapText="true" />            
+        <Region prefHeight="10"/>
+
+        <HBox spacing="20" alignment="CENTER">
+            <Button fx:id="btnGuardar" onAction="#guardarLibro" text="💾 Guardar" styleClass="btn-guardar" prefWidth="200" />
+            <Button onAction="#volverACatalogo" text="⬅ Cancelar" styleClass="btn-volver" prefWidth="150" />
         </HBox>
 
-        <Label fx:id="lblMensajeRegistro" style="-fx-font-size: 13px;" />
+        <Label fx:id="lblMensajeRegistro" style="-fx-font-weight: bold;" />
     </VBox>
 
 </VBox>

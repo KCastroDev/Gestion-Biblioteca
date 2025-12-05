@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="15" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.upn.gestion.controller.HistorialController"
+      style="-fx-background-color: transparent;">
+
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="Historial de Préstamos Finalizados" styleClass="titulo-login" style="-fx-font-size: 22px;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Actualizar Lista" onAction="#cargarDatos" styleClass="boton-ingresar"/>
+    </HBox>
+
+    <TableView fx:id="tablaHistorial" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+            <TableColumn fx:id="colEstudiante" text="Estudiante" prefWidth="200"/>
+            <TableColumn fx:id="colLibro" text="Libros Prestados" prefWidth="250"/>
+            <TableColumn fx:id="colFechaPrestamo" text="Fecha Salida" prefWidth="120"/>
+            <TableColumn fx:id="colFechaDevolucion" text="Fecha Devolución" prefWidth="120"/>
+            <TableColumn fx:id="colMulta" text="Multa Pagada" prefWidth="100"/>
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+    </TableView>
+</VBox>

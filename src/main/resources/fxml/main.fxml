@@ -10,30 +10,42 @@
             prefWidth="1000" prefHeight="650">
 
     <left>
-        <VBox spacing="15" style="-fx-background-color: #2c3e50; -fx-padding: 20;">
-            <Label text="BIBLIOTECA UPN" textFill="WHITE"
-                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 0 0 10 0;"/>
-            <Separator/>
+        <VBox spacing="15" style="-fx-background-color: #000000; -fx-padding: 20;">
 
-            <Button text="📚 Catálogo de Libros" maxWidth="Infinity"
+            <Label text="BIBLIOTECA UPN"
+                   style="-fx-text-fill: #FFB612; -fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 0 0 10 0;"/>
+
+            <Separator style="-fx-background-color: #FFB612;"/>
+
+            <Button text="Catálogo de Libros" maxWidth="Infinity"
                     onAction="#mostrarVistaLibros"
-                    style="-fx-alignment: CENTER_LEFT; -fx-cursor: hand;"/>
+                    style="-fx-alignment: CENTER_LEFT; -fx-cursor: hand; -fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-color: transparent transparent #333333 transparent;"/>
 
-            <Button text="➕ Nuevo Préstamo" maxWidth="Infinity"
+            <Button text="Gestión Préstamos" maxWidth="Infinity"
                     onAction="#mostrarVistaPrestamo"
-                    style="-fx-alignment: CENTER_LEFT; -fx-cursor: hand;"/>
+                    style="-fx-alignment: CENTER_LEFT; -fx-cursor: hand; -fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-color: transparent transparent #333333 transparent;"/>
 
-            <Button text="📋 Historial (Pronto)" maxWidth="Infinity" disable="true"
-                    style="-fx-alignment: CENTER_LEFT;"/>
+            <Button text="Historial" maxWidth="Infinity"
+                    onAction="#mostrarVistaHistorial"
+                    style="-fx-alignment: CENTER_LEFT; -fx-cursor: hand; -fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px;"/>
 
-            <Region VBox.vgrow="ALWAYS"/> <Button text="Cerrar Sesión" maxWidth="Infinity"
-                                                  style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <Button text="Cerrar Sesión" maxWidth="Infinity"
+                    onAction="#cerrarSesion"
+                    styleClass="boton-ingresar"
+                    style="-fx-background-color: #FFB612; -fx-text-fill: black; -fx-font-weight: bold;"/>
         </VBox>
     </left>
 
     <center>
-        <!-- Contenedor donde se cargan las vistas hijas -->
-        <StackPane fx:id="contenedorCentral" style="-fx-padding: 20; -fx-background-color: #ecf0f1;"/>
+        <StackPane style="-fx-padding: 20; -fx-background-color: #ecf0f1;">
+
+            <fx:include fx:id="vistaLibros" source="vistaLibros.fxml" />
+            <fx:include fx:id="vistaPrestamo" source="vistaPrestamo.fxml" visible="false"/>
+            <fx:include fx:id="vistaHistorial" source="vistaHistorial.fxml" visible="false"/>
+
+        </StackPane>
     </center>
 
 </BorderPane>
